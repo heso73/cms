@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMS Developer Guide v2.0 — Caribbean Metadata Standard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0F1117;
+  --surface:  #161B22;
+  --surface2: #1C2128;
+  --border:   #30363D;
+  --border2:  #21262D;
+  --text:     #E6EDF3;
+  --muted:    #8B949E;
+  --hint:     #6E7681;
+  --accent:   #1F7A9A;
+  --accent2:  #2EA8C8;
+  --gold:     #D4A017;
+  --gold2:    #F0C040;
+  --green:    #3FB950;
+  --green-bg: #0D1F0F;
+  --red:      #F85149;
+  --red-bg:   #1F0D0D;
+  --amber:    #D29922;
+  --amber-bg: #1F1A0D;
+  --purple:   #A371F7;
+  --mono:     'JetBrains Mono', monospace;
+  --sans:     'Instrument Sans', sans-serif;
+  --r:        6px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; }
+
+/* LAYOUT */
+.shell { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; min-width: 240px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto;
+}
+.sidebar-logo { padding: 0 20px 24px; border-bottom: 1px solid var(--border2); margin-bottom: 16px; }
+.sidebar-logo .name { font-size: 12px; font-weight: 600; color: var(--gold2); letter-spacing: 0.1em; text-transform: uppercase; }
+.sidebar-logo .ver  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.nav-group { margin-bottom: 4px; }
+.nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hint); padding: 10px 20px 4px; }
+.nav-link { display: block; padding: 5px 20px; font-size: 13px; color: var(--muted); text-decoration: none; border-left: 2px solid transparent; transition: all 0.15s; }
+.nav-link:hover { color: var(--text); background: var(--surface2); }
+.nav-link.active { color: var(--accent2); border-left-color: var(--accent2); background: rgba(31,122,154,0.08); }
+
+/* MAIN */
+main { flex: 1; min-width: 0; padding: 48px 60px 80px; max-width: 860px; }
+
+/* SECTIONS */
+section { margin-bottom: 64px; scroll-margin-top: 32px; }
+h1 { font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.3; }
+h2 { font-size: 20px; font-weight: 600; color: var(--text); margin: 40px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border2); }
+h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 24px 0 8px; }
+p  { color: var(--muted); margin-bottom: 12px; line-height: 1.75; }
+p:last-child { margin-bottom: 0; }
+a  { color: var(--accent2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* LEAD */
+.lead { font-size: 16px; color: var(--text); opacity: 0.8; margin-bottom: 28px; line-height: 1.65; }
+
+/* BADGES */
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+.badge-green  { background: var(--green-bg); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+.badge-amber  { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(210,153,34,0.3); }
+.badge-red    { background: var(--red-bg);   color: var(--red);   border: 1px solid rgba(248,81,73,0.3); }
+.badge-blue   { background: rgba(31,122,154,0.1); color: var(--accent2); border: 1px solid rgba(46,168,200,0.3); }
+.badge-purple { background: rgba(163,113,247,0.1); color: var(--purple); border: 1px solid rgba(163,113,247,0.3); }
+
+/* CODE BLOCKS */
+.code-wrap { margin: 16px 0; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.code-head { background: var(--surface2); padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.code-head span { font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.copy-btn { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+.copy-btn:hover { color: var(--text); border-color: var(--border); }
+.copy-btn.copied { color: var(--green); border-color: rgba(63,185,80,0.4); }
+pre { background: var(--surface); padding: 18px 20px; overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.75; color: #C9D1D9; }
+code { font-family: var(--mono); font-size: 12.5px; background: var(--surface2); padding: 2px 6px; border-radius: 4px; color: #A5D6FF; border: 1px solid var(--border2); }
+
+/* SYNTAX HIGHLIGHTING */
+.sk  { color: #79C0FF; }   /* key */
+.sv  { color: #A5D6FF; }   /* string value */
+.sns { color: #F0C040; }   /* CMS namespace */
+.sc  { color: #6E7681; font-style: italic; }  /* comment */
+.sp  { color: #8B949E; }   /* punctuation */
+.sfn { color: #D2A8FF; }   /* function */
+.skw { color: #FF7B72; }   /* keyword */
+.sn  { color: #79C0FF; }   /* number/type */
+
+/* CALLOUTS */
+.callout { border-radius: var(--r); padding: 14px 18px; margin: 16px 0; border-left: 3px solid; }
+.callout p { margin: 0; font-size: 13.5px; line-height: 1.65; }
+.callout strong { font-weight: 600; }
+.callout-info   { background: rgba(31,122,154,0.08); border-color: var(--accent); }
+.callout-info p { color: #9ECFDF; }
+.callout-warn   { background: var(--amber-bg); border-color: var(--amber); }
+.callout-warn p { color: #DDB870; }
+.callout-ok     { background: var(--green-bg); border-color: var(--green); }
+.callout-ok p   { color: #7EE787; }
+.callout-err    { background: var(--red-bg); border-color: var(--red); }
+.callout-err p  { color: #FF9492; }
+
+/* TABLE */
+.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--border); border-radius: var(--r); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead tr { background: var(--surface2); }
+th { padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); }
+td { padding: 9px 14px; border-bottom: 1px solid var(--border2); color: var(--muted); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+td code { font-size: 11.5px; }
+td strong { color: var(--text); font-weight: 500; }
+
+/* STEP LIST */
+.steps { counter-reset: step; display: flex; flex-direction: column; gap: 0; }
+.step { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border2); }
+.step:last-child { border-bottom: none; }
+.step-num { counter-increment: step; width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: rgba(31,122,154,0.15); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--accent2); margin-top: 2px; }
+.step-body h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.step-body p  { font-size: 13.5px; margin-bottom: 8px; }
+
+/* MAPPING ROW */
+.map-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border2); font-size: 13px; }
+.map-row:last-child { border-bottom: none; }
+.map-cms  { background: rgba(31,122,154,0.08); border: 1px solid rgba(46,168,200,0.2); color: var(--accent2); padding: 3px 10px; border-radius: 4px; font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+.map-arr  { color: var(--hint); font-size: 18px; flex-shrink: 0; }
+.map-dc   { background: rgba(163,113,247,0.08); border: 1px solid rgba(163,113,247,0.2); color: var(--purple); padding: 3px 10px; border-radius: 4px; font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+.map-note { font-size: 12px; color: var(--hint); margin-left: auto; text-align: right; }
+
+/* CERT GRID */
+.cert-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 16px 0; }
+.cert-card { border: 1px solid var(--border); border-radius: var(--r); padding: 14px 12px; text-align: center; }
+.cert-card .level { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.cert-card .desc  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.cert-bronze  { border-color: #8C6F3E; }
+.cert-silver  { border-color: #6A7580; }
+.cert-gold    { border-color: var(--gold); }
+.cert-platinum{ border-color: var(--purple); }
+
+/* HEADER */
+.doc-header { padding: 0 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+.doc-header h1 { font-size: 30px; }
+.doc-meta { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+.doc-meta .badge { font-size: 12px; }
+
+@media (max-width: 820px) {
+  .sidebar { display: none; }
+  main { padding: 32px 24px 60px; }
+  .cert-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar" aria-label="Document navigation">
+  <div class="sidebar-logo">
+    <div class="name">CMS Dev Guide</div>
+    <div class="ver">Version 2.0 · May 2026</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Getting started</div>
+    <a class="nav-link active" href="#overview">Overview</a>
+    <a class="nav-link" href="#quickstart">Quick start</a>
+    <a class="nav-link" href="#namespace">Namespace</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Core concepts</div>
+    <a class="nav-link" href="#context">@context declaration</a>
+    <a class="nav-link" href="#fields">Field reference</a>
+    <a class="nav-link" href="#languages">Language codes</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Integration</div>
+    <a class="nav-link" href="#levels">Integration levels</a>
+    <a class="nav-link" href="#mapping">CMS → Dublin Core</a>
+    <a class="nav-link" href="#ebucore">CMS → EBUCore</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Reference</div>
+    <a class="nav-link" href="#certification">Certification</a>
+    <a class="nav-link" href="#validation">Validation</a>
+    <a class="nav-link" href="#errors">Common errors</a>
+    <a class="nav-link" href="#tools">Tools</a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <div class="doc-header">
+    <h1>CMS Developer Guide</h1>
+    <p class="lead">Technical reference for integrating the Caribbean Metadata Standard into platforms, archives, and content management systems.</p>
+    <div class="doc-meta">
+      <span class="badge badge-blue">CMS v2.0</span>
+      <span class="badge badge-green">schema.org compliant</span>
+      <span class="badge badge-purple">JSON-LD 1.1</span>
+      <span class="badge badge-amber">CC BY 4.0</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>The Caribbean Metadata Standard (CMS) is a structured taxonomy for classifying Caribbean audiovisual content. It is built as an <strong style="color:var(--text)">extension of schema.org</strong> — not a replacement. A CMS document is a valid JSON-LD document that any schema.org-aware system can already partially read.</p>
+    <p>The CMS adds a custom namespace (<code>cms:</code>) to carry six metadata families that schema.org does not model: Linguistic, Cultural, Narrative, Rhythmic, Geographic, and Socio-historical.</p>
+
+    <div class="callout callout-info">
+      <p><strong>Design principle:</strong> A platform that does nothing special with <code>cms:*</code> fields still gets a valid schema.org document. A platform that understands <code>cms:*</code> fields gets full Caribbean discoverability. The standard degrades gracefully.</p>
+    </div>
+
+    <h3>The six metadata families</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Family</th><th>CMS prefix</th><th>What it describes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Linguistic</strong></td><td><code>cms:linguistic_marker</code>, <code>cms:code_switching</code></td><td>Languages, dialects, code-switching patterns</td></tr>
+          <tr><td><strong>Cultural</strong></td><td><code>cms:cultural_markers[]</code></td><td>Traditions, spiritualities, heritage markers</td></tr>
+          <tr><td><strong>Narrative</strong></td><td><code>cms:narrative_genre</code></td><td>Genres, story structures, Caribbean tropes</td></tr>
+          <tr><td><strong>Rhythmic</strong></td><td><code>cms:rhythmic_tempo</code></td><td>Dialogue tempo, pacing, musicality</td></tr>
+          <tr><td><strong>Geographic</strong></td><td><code>cms:territory</code>, <code>cms:environment</code></td><td>Territory, environment, insular specificity</td></tr>
+          <tr><td><strong>Socio-historical</strong></td><td><code>cms:sociohistorical_markers[]</code></td><td>Postcolonial markers, memory, migration</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- QUICKSTART -->
+  <section id="quickstart">
+    <h2>Quick start</h2>
+    <p>The minimum valid CMS document requires three schema.org fields and the CMS namespace declaration.</p>
+
+    <div class="code-wrap">
+      <div class="code-head"><span>JSON-LD · minimum valid</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre>{
+  <span class="sk">"@context"</span>: {
+    <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,
+    <span class="sk">"cms"</span>:   <span class="sns">"https://caribbeanmetadata.org/ns/"</span>
+  },
+  <span class="sk">"@type"</span>: <span class="sv">"CreativeWork"</span>,
+  <span class="sk">"name"</span>:  <span class="sv">"Your content title"</span>
+}</pre>
+    </div>
+
+    <p>A full production document with all six families:</p>
+
+    <div class="code-wrap">
+      <div class="code-head"><span>JSON-LD · full example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre>{
+  <span class="sk">"@context"</span>: {
+    <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,
+    <span class="sk">"cms"</span>:   <span class="sns">"https://caribbeanmetadata.org/ns/"</span>
+  },
+  <span class="sk">"@type"</span>:          <span class="sv">"Movie"</span>,
+  <span class="sk">"name"</span>:          <span class="sv">"Anba Dlo"</span>,
+  <span class="sk">"description"</span>:   <span class="sv">"A documentary on Vodou spirituality in rural Haiti."</span>,
+  <span class="sk">"creator"</span>: { <span class="sk">"@type"</span>: <span class="sv">"Person"</span>, <span class="sk">"name"</span>: <span class="sv">"Claudine Moreau"</span> },
+  <span class="sk">"datePublished"</span>: <span class="sv">"2024-06-01"</span>,
+  <span class="sk">"inLanguage"</span>:    <span class="sv">"ht"</span>,
+  <span class="sk">"keywords"</span>:      [<span class="sv">"haiti"</span>, <span class="sv">"documentary"</span>, <span class="sv">"vodou"</span>],
+
+  <span class="sc">// CMS extension — six families</span>
+  <span class="sk">"cms:territory"</span>:             <span class="sv">"Haiti"</span>,
+  <span class="sk">"cms:environment"</span>:           <span class="sv">"Rural"</span>,
+  <span class="sk">"cms:linguistic_marker"</span>:     <span class="sv">"Haitian Creole"</span>,
+  <span class="sk">"cms:code_switching"</span>:        <span class="sv">"None"</span>,
+  <span class="sk">"cms:narrative_genre"</span>:       <span class="sv">"Documentary"</span>,
+  <span class="sk">"cms:cultural_markers"</span>:      [<span class="sv">"Vodou"</span>, <span class="sv">"Afro-Caribbean spirituality"</span>],
+  <span class="sk">"cms:rhythmic_tempo"</span>:        <span class="sv">"slow contemplative island"</span>,
+  <span class="sk">"cms:sociohistorical_markers"</span>:[<span class="sv">"Postcolonial identity"</span>, <span class="sv">"Memory of slavery"</span>],
+  <span class="sk">"cms:certification"</span>:         <span class="sv">"Gold"</span>,
+  <span class="sk">"cms:certification_date"</span>:    <span class="sv">"2026-05-01"</span>,
+  <span class="sk">"cms:standard_version"</span>:      <span class="sv">"CMS-2.0"</span>
+}</pre>
+    </div>
+
+    <p>To embed in an HTML page, wrap in a <code>&lt;script&gt;</code> tag:</p>
+    <div class="code-wrap">
+      <div class="code-head"><span>HTML embedding</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><span class="sp">&lt;</span><span class="skw">script</span> <span class="sk">type</span>=<span class="sv">"application/ld+json"</span><span class="sp">&gt;</span>
+{ ... your CMS JSON-LD ... }
+<span class="sp">&lt;/</span><span class="skw">script</span><span class="sp">&gt;</span></pre>
+    </div>
+  </section>
+
+  <!-- NAMESPACE -->
+  <section id="namespace">
+    <h2>Namespace declaration</h2>
+    <p>The CMS namespace URI is the single identifier that makes all <code>cms:*</code> properties resolvable by JSON-LD processors. It <strong style="color:var(--text)">must</strong> be declared in every document.</p>
+
+    <div class="code-wrap">
+      <div class="code-head"><span>Correct @context</span></div>
+      <pre><span class="sk">"@context"</span>: {
+  <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,     <span class="sc">// default vocab</span>
+  <span class="sk">"cms"</span>:   <span class="sns">"https://caribbeanmetadata.org/ns/"</span>  <span class="sc">// CMS prefix</span>
+}</pre>
+    </div>
+
+    <div class="callout callout-err">
+      <p><strong>Never use a plain string context</strong> — <code>"@context": "https://schema.org"</code> does not declare the CMS namespace. All <code>cms:*</code> properties will be silently dropped by JSON-LD processors.</p>
+    </div>
+
+    <div class="callout callout-warn">
+      <p><strong>Note on @vocab:</strong> Use <code>"https://schema.org/"</code> (with trailing slash) — not <code>"https://schema.org"</code>. The trailing slash is required for correct property resolution.</p>
+    </div>
+  </section>
+
+  <!-- @CONTEXT -->
+  <section id="context">
+    <h2>@context declaration patterns</h2>
+
+    <h3>Pattern 1 — standalone JSON file</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>cms-context.json</span></div>
+      <pre>{
+  <span class="sk">"@context"</span>: {
+    <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,
+    <span class="sk">"cms"</span>:   <span class="sns">"https://caribbeanmetadata.org/ns/"</span>
+  }
+}</pre>
+    </div>
+
+    <h3>Pattern 2 — reference a shared context file</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>Referencing external context</span></div>
+      <pre>{
+  <span class="sk">"@context"</span>: [
+    <span class="sv">"https://schema.org/"</span>,
+    <span class="sv">"https://caribbeanmetadata.org/ns/context.json"</span>
+  ],
+  <span class="sk">"@type"</span>: <span class="sv">"CreativeWork"</span>,
+  ...
+}</pre>
+    </div>
+
+    <h3>Pattern 3 — Python generation</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><span class="skw">def</span> <span class="sfn">cms_context</span>():
+    <span class="skw">return</span> {
+        <span class="sv">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,
+        <span class="sv">"cms"</span>:   <span class="sv">"https://caribbeanmetadata.org/ns/"</span>
+    }
+
+doc = {
+    <span class="sv">"@context"</span>: <span class="sfn">cms_context</span>(),
+    <span class="sv">"@type"</span>:    <span class="sv">"Movie"</span>,
+    <span class="sv">"name"</span>:     <span class="sv">"Anba Dlo"</span>,
+    <span class="sv">"inLanguage"</span>: <span class="sv">"ht"</span>,
+    <span class="sv">"cms:territory"</span>: <span class="sv">"Haiti"</span>,
+}</pre>
+    </div>
+
+    <h3>Pattern 4 — JavaScript / Node.js</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+      <pre><span class="skw">const</span> CMS_CONTEXT = {
+  <span class="sv">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>,
+  <span class="sv">"cms"</span>:   <span class="sv">"https://caribbeanmetadata.org/ns/"</span>
+};
+
+<span class="skw">const</span> doc = {
+  <span class="sv">"@context"</span>:       CMS_CONTEXT,
+  <span class="sv">"@type"</span>:          <span class="sv">"Movie"</span>,
+  <span class="sv">"name"</span>:          title,
+  <span class="sv">"inLanguage"</span>:    langCode,     <span class="sc">// must be BCP 47</span>
+  <span class="sv">"cms:territory"</span>: territory,
+};</pre>
+    </div>
+  </section>
+
+  <!-- FIELDS -->
+  <section id="fields">
+    <h2>Field reference</h2>
+
+    <h3>Schema.org fields (required / recommended)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>@type</code></td><td>string</td><td><span class="badge badge-red">required</span></td><td><code>CreativeWork</code>, <code>Movie</code>, <code>MusicRecording</code>, <code>TVSeries</code>, <code>Podcast</code>, <code>Book</code></td></tr>
+          <tr><td><code>name</code></td><td>string</td><td><span class="badge badge-red">required</span></td><td>Content title</td></tr>
+          <tr><td><code>description</code></td><td>string</td><td><span class="badge badge-amber">recommended</span></td><td>1–3 sentence summary</td></tr>
+          <tr><td><code>creator</code></td><td>object</td><td><span class="badge badge-amber">recommended</span></td><td><code>{"@type": "Person", "name": "..."}</code></td></tr>
+          <tr><td><code>datePublished</code></td><td>string</td><td><span class="badge badge-amber">recommended</span></td><td>ISO 8601: <code>YYYY-MM-DD</code></td></tr>
+          <tr><td><code>inLanguage</code></td><td>string</td><td><span class="badge badge-amber">recommended</span></td><td><strong style="color:var(--red)">BCP 47 only</strong> — see Language codes section</td></tr>
+          <tr><td><code>keywords</code></td><td>array</td><td><span class="badge badge-green">optional</span></td><td>Lowercase, hyphenated. Feeds platform search.</td></tr>
+          <tr><td><code>url</code></td><td>string</td><td><span class="badge badge-green">optional</span></td><td>Canonical URL of content</td></tr>
+          <tr><td><code>contentLocation</code></td><td>object</td><td><span class="badge badge-green">optional</span></td><td><code>{"@type": "Place", "name": "Haiti", "addressCountry": "HT"}</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>CMS extension fields</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>Family</th><th>Type</th><th>Example values</th></tr></thead>
+        <tbody>
+          <tr><td><code>cms:territory</code></td><td>Geographic</td><td>string</td><td><code>"Haiti"</code>, <code>"Guadeloupe"</code>, <code>"Caribbean (multi-territory)"</code></td></tr>
+          <tr><td><code>cms:environment</code></td><td>Geographic</td><td>string</td><td><code>"Urban"</code>, <code>"Rural"</code>, <code>"Coastal"</code>, <code>"Island"</code>, <code>"Diaspora"</code></td></tr>
+          <tr><td><code>cms:linguistic_marker</code></td><td>Linguistic</td><td>string</td><td><code>"Haitian Creole"</code>, <code>"Guadeloupe Creole"</code></td></tr>
+          <tr><td><code>cms:code_switching</code></td><td>Linguistic</td><td>string</td><td><code>"FR/Kreyol"</code>, <code>"EN/Patois"</code>, <code>"Multilingual"</code></td></tr>
+          <tr><td><code>cms:narrative_genre</code></td><td>Narrative</td><td>string</td><td><code>"Documentary"</code>, <code>"Magical realism"</code>, <code>"Social drama"</code></td></tr>
+          <tr><td><code>cms:cultural_markers</code></td><td>Cultural</td><td>array</td><td><code>["Carnival", "Vodou", "Diaspora identity"]</code></td></tr>
+          <tr><td><code>cms:rhythmic_tempo</code></td><td>Rhythmic</td><td>string</td><td><code>"syncopated"</code>, <code>"fast-paced urban"</code>, <code>"slow contemplative island"</code></td></tr>
+          <tr><td><code>cms:sociohistorical_markers</code></td><td>Socio-hist.</td><td>array</td><td><code>["Postcolonial identity", "Creolization"]</code></td></tr>
+          <tr><td><code>cms:certification</code></td><td>—</td><td>string</td><td><code>"Bronze"</code>, <code>"Silver"</code>, <code>"Gold"</code>, <code>"Platinum"</code></td></tr>
+          <tr><td><code>cms:certification_date</code></td><td>—</td><td>string</td><td><code>"2026-05-01"</code> (ISO 8601)</td></tr>
+          <tr><td><code>cms:standard_version</code></td><td>—</td><td>string</td><td><code>"CMS-2.0"</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section id="languages">
+    <h2>Language codes</h2>
+    <p><code>inLanguage</code> requires <strong style="color:var(--text)">BCP 47</strong> (RFC 5646). Never use ISO 639-3 codes in this field — they are not recognized by Google, Bing, or any major schema.org processor.</p>
+
+    <div class="callout callout-err">
+      <p><strong>Common mistake:</strong> Using <code>"hat"</code> (ISO 639-3) instead of <code>"ht"</code> (BCP 47) for Haitian Creole. Google will silently ignore the <code>inLanguage</code> field if it doesn't match BCP 47.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Language</th><th>BCP 47 ✓ (use in inLanguage)</th><th>ISO 639-3 ✗ (internal use only)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Haitian Creole</strong></td><td><code>ht</code></td><td><code>hat</code></td></tr>
+          <tr><td><strong>Guadeloupe Creole</strong></td><td><code>gcf</code></td><td><code>gcf</code></td></tr>
+          <tr><td><strong>Martinique Creole</strong></td><td><code>mart1259</code></td><td><code>–</code></td></tr>
+          <tr><td><strong>Jamaican Patois</strong></td><td><code>jam</code></td><td><code>jam</code></td></tr>
+          <tr><td><strong>French</strong></td><td><code>fr</code></td><td><code>fra</code></td></tr>
+          <tr><td><strong>English</strong></td><td><code>en</code></td><td><code>eng</code></td></tr>
+          <tr><td><strong>Spanish</strong></td><td><code>es</code></td><td><code>spa</code></td></tr>
+          <tr><td><strong>Dutch / Papiamento</strong></td><td><code>nl</code> / <code>pap</code></td><td><code>nld</code> / <code>pap</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>To store the ISO 639-3 code alongside the BCP 47 value, use a dedicated CMS property:</p>
+    <div class="code-wrap">
+      <div class="code-head"><span>Dual language coding</span></div>
+      <pre><span class="sk">"inLanguage"</span>:          <span class="sv">"ht"</span>,        <span class="sc">// BCP 47 — required by schema.org</span>
+<span class="sk">"cms:language_iso639_3"</span>: <span class="sv">"hat"</span>       <span class="sc">// ISO 639-3 — for internal/archival use</span></pre>
+    </div>
+  </section>
+
+  <!-- INTEGRATION LEVELS -->
+  <section id="levels">
+    <h2>Integration levels</h2>
+    <p>Platforms and archives can adopt the CMS at three levels of commitment. Each level is independent and non-destructive to existing infrastructure.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Basic — accept CMS tags as keywords <span class="badge badge-green" style="margin-left:8px;vertical-align:middle;">Hours</span></h4>
+          <p>No schema changes. Pass <code>cms:cultural_markers</code> and <code>cms:narrative_genre</code> values into your existing keyword or subject fields (<code>dc:subject</code>, <code>keywords</code>). Minimum viable adoption.</p>
+          <div class="code-wrap">
+            <div class="code-head"><span>Level 1 · SQL example</span></div>
+            <pre><span class="sc">-- Store CMS tags as additional keywords</span>
+<span class="skw">INSERT INTO</span> content_keywords (content_id, keyword, source)
+<span class="skw">VALUES</span>
+  (<span class="sv">'abc123'</span>, <span class="sv">'Vodou'</span>,           <span class="sv">'cms:cultural_markers'</span>),
+  (<span class="sv">'abc123'</span>, <span class="sv">'Documentary'</span>,      <span class="sv">'cms:narrative_genre'</span>),
+  (<span class="sv">'abc123'</span>, <span class="sv">'Haiti'</span>,            <span class="sv">'cms:territory'</span>);</pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Structured — map CMS families to dedicated columns <span class="badge badge-amber" style="margin-left:8px;vertical-align:middle;">Days</span></h4>
+          <p>Add columns or properties for each CMS family. Enables filtered queries by territory, language, genre.</p>
+          <div class="code-wrap">
+            <div class="code-head"><span>Level 2 · SQL schema</span></div>
+            <pre><span class="skw">ALTER TABLE</span> content
+  <span class="skw">ADD COLUMN</span> cms_territory          <span class="sn">VARCHAR</span>(<span class="sn">100</span>),
+  <span class="skw">ADD COLUMN</span> cms_language_bcp47     <span class="sn">VARCHAR</span>(<span class="sn">20</span>),
+  <span class="skw">ADD COLUMN</span> cms_narrative_genre    <span class="sn">VARCHAR</span>(<span class="sn">100</span>),
+  <span class="skw">ADD COLUMN</span> cms_rhythmic_tempo     <span class="sn">VARCHAR</span>(<span class="sn">60</span>),
+  <span class="skw">ADD COLUMN</span> cms_certification      <span class="sn">VARCHAR</span>(<span class="sn">20</span>),
+  <span class="skw">ADD COLUMN</span> cms_standard_version   <span class="sn">VARCHAR</span>(<span class="sn">10</span>);</pre>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Native — full six-family integration <span class="badge badge-red" style="margin-left:8px;vertical-align:middle;">Weeks</span></h4>
+          <p>First-class CMS fields in your data model, search index, and recommendation engine. Full Caribbean discoverability. Output CMS-compliant JSON-LD from your content API.</p>
+          <div class="code-wrap">
+            <div class="code-head"><span>Level 3 · API JSON response</span></div>
+            <pre><span class="sc">// Your content API endpoint returns CMS JSON-LD directly</span>
+<span class="skw">GET</span> /api/content/abc123?format=jsonld
+
+{
+  <span class="sk">"@context"</span>: { <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>, <span class="sk">"cms"</span>: <span class="sns">"https://caribbeanmetadata.org/ns/"</span> },
+  <span class="sk">"@type"</span>: <span class="sv">"Movie"</span>,
+  <span class="sk">"name"</span>: <span class="sv">"Anba Dlo"</span>,
+  <span class="sk">"cms:territory"</span>: <span class="sv">"Haiti"</span>,
+  <span class="sk">"cms:certification"</span>: <span class="sv">"Gold"</span>
+  <span class="sc">// ... full document</span>
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPPING: DUBLIN CORE -->
+  <section id="mapping">
+    <h2>CMS → Dublin Core mapping</h2>
+    <p>Use the conversion script <code>cms_to_dublin_core.py</code> for automated conversion. The table below shows the full mapping logic.</p>
+
+    <div class="callout callout-info">
+      <p><strong>Conversion script:</strong> <code>python cms_to_dublin_core.py input.json --format both</code> — produces <code>_dublin_core.xml</code> (OAI-DC) and <code>_dublin_core.csv</code>.</p>
+    </div>
+
+    <div style="margin: 20px 0;">
+      <div class="map-row"><span class="map-cms">name</span><span class="map-arr">→</span><span class="map-dc">dc:title</span><span class="map-note">Direct</span></div>
+      <div class="map-row"><span class="map-cms">description</span><span class="map-arr">→</span><span class="map-dc">dc:description</span><span class="map-note">Direct</span></div>
+      <div class="map-row"><span class="map-cms">creator.name</span><span class="map-arr">→</span><span class="map-dc">dc:creator</span><span class="map-note">Person or Organization</span></div>
+      <div class="map-row"><span class="map-cms">datePublished</span><span class="map-arr">→</span><span class="map-dc">dc:date</span><span class="map-note">ISO 8601</span></div>
+      <div class="map-row"><span class="map-cms">inLanguage</span><span class="map-arr">→</span><span class="map-dc">dc:language</span><span class="map-note">BCP 47 + label</span></div>
+      <div class="map-row"><span class="map-cms">url</span><span class="map-arr">→</span><span class="map-dc">dc:identifier</span><span class="map-note">URI</span></div>
+      <div class="map-row"><span class="map-cms">@type</span><span class="map-arr">→</span><span class="map-dc">dc:format</span><span class="map-note">schema: prefix added</span></div>
+      <div class="map-row"><span class="map-cms">keywords[]</span><span class="map-arr">→</span><span class="map-dc">dc:subject</span><span class="map-note">One entry per keyword</span></div>
+      <div class="map-row"><span class="map-cms">cms:cultural_markers[]</span><span class="map-arr">→</span><span class="map-dc">dc:subject</span><span class="map-note">Prefixed CMS:cultural:</span></div>
+      <div class="map-row"><span class="map-cms">cms:sociohistorical_markers[]</span><span class="map-arr">→</span><span class="map-dc">dc:subject</span><span class="map-note">Prefixed CMS:sociohistorical:</span></div>
+      <div class="map-row"><span class="map-cms">cms:narrative_genre</span><span class="map-arr">→</span><span class="map-dc">dc:type + dc:subject</span><span class="map-note">Both fields populated</span></div>
+      <div class="map-row"><span class="map-cms">cms:territory + cms:environment</span><span class="map-arr">→</span><span class="map-dc">dc:coverage</span><span class="map-note">spatial: qualifier</span></div>
+      <div class="map-row"><span class="map-cms">cms:certification</span><span class="map-arr">→</span><span class="map-dc">dc:relation</span><span class="map-note">CMS-Certification: prefix</span></div>
+      <div class="map-row"><span class="map-cms">cms:standard_version</span><span class="map-arr">→</span><span class="map-dc">dc:source</span><span class="map-note">With namespace URI</span></div>
+    </div>
+  </section>
+
+  <!-- EBUCore -->
+  <section id="ebucore">
+    <h2>CMS → EBUCore mapping</h2>
+    <p>EBUCore is the standard used by broadcasters, public archives, and audiovisual institutions. CMS maps cleanly to EBUCore 1.6.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>CMS field</th><th>EBUCore field</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td><code>ebucore:title</code></td><td>Main title</td></tr>
+          <tr><td><code>inLanguage</code></td><td><code>ebucore:language</code></td><td>BCP 47</td></tr>
+          <tr><td><code>cms:cultural_markers[]</code></td><td><code>ebucore:subject</code></td><td>One element per marker</td></tr>
+          <tr><td><code>cms:narrative_genre</code></td><td><code>ebucore:genre</code></td><td>Free text or controlled vocab</td></tr>
+          <tr><td><code>cms:territory</code></td><td><code>ebucore:coverage</code></td><td>Spatial coverage</td></tr>
+          <tr><td><code>keywords[]</code></td><td><code>ebucore:keyword</code></td><td>One element per keyword</td></tr>
+          <tr><td><code>creator.name</code></td><td><code>ebucore:contributor</code></td><td>With role attribute</td></tr>
+          <tr><td><code>datePublished</code></td><td><code>ebucore:date</code></td><td>ISO 8601</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-head"><span>EBUCore XML snippet</span></div>
+      <pre><span class="sp">&lt;</span><span class="skw">ebucore:ebuCoreMain</span> <span class="sk">xmlns:ebucore</span>=<span class="sv">"urn:ebu:metadata-schema:ebuCore_2014"</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:title</span><span class="sp">&gt;</span>Anba Dlo<span class="sp">&lt;/</span><span class="skw">ebucore:title</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:language</span><span class="sp">&gt;</span>ht<span class="sp">&lt;/</span><span class="skw">ebucore:language</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:genre</span><span class="sp">&gt;</span>Documentary<span class="sp">&lt;/</span><span class="skw">ebucore:genre</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:subject</span><span class="sp">&gt;</span>Vodou<span class="sp">&lt;/</span><span class="skw">ebucore:subject</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:subject</span><span class="sp">&gt;</span>Afro-Caribbean spirituality<span class="sp">&lt;/</span><span class="skw">ebucore:subject</span><span class="sp">&gt;</span>
+  <span class="sp">&lt;</span><span class="skw">ebucore:coverage</span><span class="sp">&gt;</span>Haiti<span class="sp">&lt;/</span><span class="skw">ebucore:coverage</span><span class="sp">&gt;</span>
+<span class="sp">&lt;/</span><span class="skw">ebucore:ebuCoreMain</span><span class="sp">&gt;</span></pre>
+    </div>
+  </section>
+
+  <!-- CERTIFICATION -->
+  <section id="certification">
+    <h2>Certification levels</h2>
+    <p>CMS certification is assigned through the official process at <a href="https://caribbeanmetadata.org">caribbeanmetadata.org</a>. The level reflects the depth of cultural anchoring in the metadata.</p>
+    <div class="cert-grid">
+      <div class="cert-card cert-bronze">
+        <div class="level" style="color:#C8924A;">Bronze</div>
+        <div class="desc">Core fields complete. Territory and language declared.</div>
+      </div>
+      <div class="cert-card cert-silver">
+        <div class="level" style="color:#9EABB5;">Silver</div>
+        <div class="desc">+ Narrative genre and at least 2 cultural markers.</div>
+      </div>
+      <div class="cert-card cert-gold">
+        <div class="level" style="color:var(--gold2);">Gold</div>
+        <div class="desc">+ All six families populated. Rhythmic and socio-historical included.</div>
+      </div>
+      <div class="cert-card cert-platinum">
+        <div class="level" style="color:var(--purple);">Platinum</div>
+        <div class="desc">+ Expert-validated. Community-reviewed. Full corpus tagging.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALIDATION -->
+  <section id="validation">
+    <h2>Validation</h2>
+    <h3>Online tools</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool</th><th>What it checks</th><th>URL</th></tr></thead>
+        <tbody>
+          <tr><td><strong>schema.org Validator</strong></td><td>schema.org conformance, <code>@context</code>, property types</td><td><a href="https://validator.schema.org/">validator.schema.org</a></td></tr>
+          <tr><td><strong>JSON-LD Playground</strong></td><td>JSON-LD parsing, namespace resolution, compaction</td><td><a href="https://json-ld.org/playground/">json-ld.org/playground</a></td></tr>
+          <tr><td><strong>Google Rich Results</strong></td><td>Google indexing eligibility</td><td><a href="https://search.google.com/test/rich-results">search.google.com/test/rich-results</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Command-line validation</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>cms_to_dublin_core.py --validate-only</span></div>
+      <pre><span class="sc"># Validate only — no output files</span>
+python cms_to_dublin_core.py my_content.json --validate-only
+
+<span class="sc"># Expected output (valid document)</span>
+✓  CMS validation passed — my_content.json
+
+<span class="sc"># Expected output (warnings)</span>
+⚠  CMS Validation warnings for: my_content.json
+   • inLanguage 'hat' may not be valid BCP 47. Expected: ht, gcf, jam, fr, en…
+   • cms:certification 'bronze' is not a valid level. Expected: Bronze, Silver, Gold, Platinum</pre>
+    </div>
+  </section>
+
+  <!-- COMMON ERRORS -->
+  <section id="errors">
+    <h2>Common errors</h2>
+
+    <h3>Error 1 — Plain string @context</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>Wrong ✗</span></div>
+      <pre><span class="sk">"@context"</span>: <span class="sv">"https://schema.org"</span>   <span class="sc">// CMS namespace not declared</span></pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-head"><span>Correct ✓</span></div>
+      <pre><span class="sk">"@context"</span>: { <span class="sk">"@vocab"</span>: <span class="sv">"https://schema.org/"</span>, <span class="sk">"cms"</span>: <span class="sns">"https://caribbeanmetadata.org/ns/"</span> }</pre>
+    </div>
+
+    <h3>Error 2 — ISO 639-3 in inLanguage</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>Wrong ✗</span></div>
+      <pre><span class="sk">"inLanguage"</span>: <span class="sv">"hat"</span>   <span class="sc">// ISO 639-3 — not recognized by Google</span></pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-head"><span>Correct ✓</span></div>
+      <pre><span class="sk">"inLanguage"</span>: <span class="sv">"ht"</span>    <span class="sc">// BCP 47 — correct for Haitian Creole</span></pre>
+    </div>
+
+    <h3>Error 3 — cms: prefix without namespace declaration</h3>
+    <div class="callout callout-warn">
+      <p>If <code>"cms": "https://caribbeanmetadata.org/ns/"</code> is missing from <code>@context</code>, all <code>cms:*</code> properties are treated as arbitrary strings and dropped by JSON-LD processors. The document remains valid schema.org JSON-LD but all CMS information is lost.</p>
+    </div>
+
+    <h3>Error 4 — additionalProperty wrapper (deprecated)</h3>
+    <div class="code-wrap">
+      <div class="code-head"><span>Old pattern (v1.x) ✗</span></div>
+      <pre><span class="sk">"additionalProperty"</span>: {
+  <span class="sk">"@type"</span>: <span class="sv">"PropertyValue"</span>,
+  <span class="sk">"name"</span>: <span class="sv">"cms:rhythmicTempo"</span>,   <span class="sc">// wrong: name is not a namespace</span>
+  <span class="sk">"value"</span>: <span class="sv">"syncopated"</span>
+}</pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-head"><span>Current pattern (v2.0) ✓</span></div>
+      <pre><span class="sk">"cms:rhythmic_tempo"</span>: <span class="sv">"syncopated"</span>   <span class="sc">// first-class property</span></pre>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <h2>Tools &amp; resources</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool</th><th>Format</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CMS Tagger</strong></td><td>Web UI</td><td>Interactive form → JSON-LD generation. Available at <a href="https://caribbeanmetadata.org/#tagger">caribbeanmetadata.org/#tagger</a></td></tr>
+          <tr><td><strong>cms_template.json</strong></td><td>JSON</td><td>Annotated template with all fields, options, and instructions. Download at <a href="https://caribbeanmetadata.org">caribbeanmetadata.org</a></td></tr>
+          <tr><td><strong>cms_to_dublin_core.py</strong></td><td>Python 3</td><td>Converts CMS JSON-LD → Dublin Core XML + CSV. Includes validation.</td></tr>
+          <tr><td><strong>White Paper v2.0</strong></td><td>DOCX</td><td>Full standard specification, governance, and roadmap.</td></tr>
+          <tr><td><strong>GitHub repository</strong></td><td>—</td><td>All tools, schemas, and issue tracking. <a href="https://github.com/caribwood/cms">github.com/caribwood/cms</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-ok">
+      <p><strong>Questions or contributions:</strong> Open an issue on GitHub or contact the Technical Committee at <a href="mailto:cms@caribwood.org">cms@caribwood.org</a>. The CMS governance model is open — any Caribbean institution can propose new tags or corrections.</p>
+    </div>
+
+    <p style="margin-top:32px;font-size:12px;color:var(--hint);">Caribbean Metadata Standard v2.0 · Caribwood Language Lab · License: CC BY 4.0 · May 2026</p>
+  </section>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', function() {
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = pre.innerText || pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
