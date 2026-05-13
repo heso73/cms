@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cms": "https://caribbeanmetadata.org/ns/"
+  },
+  "@type": "Movie",
+  "name": "Anba Dlo",
+  "description": "A documentary exploring Vodou spirituality and family memory across two generations in rural Haiti.",
+  "creator": {
+    "@type": "Person",
+    "name": "Claudine Moreau",
+    "sameAs": "https://claudinemoreau.ht"
+  },
+  "datePublished": "2024-06-01",
+  "inLanguage": "ht",
+  "keywords": ["haiti", "documentary", "vodou", "afro-caribbean-spirituality", "memory"],
+  "contentLocation": {
+    "@type": "Place",
+    "name": "Haiti",
+    "addressCountry": "HT"
+  },
+  "url": "https://example.com/anba-dlo",
+  "cms:territory": "Haiti",
+  "cms:environment": "Rural",
+  "cms:linguistic_marker": "Haitian Creole",
+  "cms:code_switching": "None",
+  "cms:narrative_genre": "Documentary",
+  "cms:cultural_markers": ["Vodou", "Afro-Caribbean spirituality", "Family memory"],
+  "cms:rhythmic_tempo": "slow contemplative island",
+  "cms:sociohistorical_markers": ["Postcolonial identity", "Memory of slavery", "Intergenerational tensions"],
+  "cms:certification": "Gold",
+  "cms:certification_date": "2026-05-01",
+  "cms:standard_version": "CMS-2.0"
+}
