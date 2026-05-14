@@ -11,8 +11,9 @@ The **Caribbean Metadata Standard (CMS)** is the first open framework designed t
 
 It does not replace existing standards. It extends them: adding a Caribbean semantic layer to **Dublin Core**, **schema.org**, and **EBUCore**.
 
-→ **White Paper v2.0:** [caribbeanmetadata.org](https://caribbeanmetadata.org)  
+→ **White Paper v2.0:** [caribbeanmetadata.org/white-paper](https://caribbeanmetadata.org/white-paper) *(full specification — hosted on the official site)*  
 → **Live Tagger:** [caribbeanmetadata.org/#tagger](https://caribbeanmetadata.org/#tagger)  
+→ **NLP Corpus:** [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) *(first structured Caribbean cultural dataset)*  
 → **Contact:** cms@caribwood.org
 
 ---
@@ -102,10 +103,8 @@ Caribbean creators face three systemic barriers:
 ```
 cms/
 ├── README.md                        # This file
+├── CONTRIBUTING.md                  # How to propose tags and contribute
 ├── LICENSE                          # CC BY 4.0
-│
-├── spec/
-│   └── CMS_WhitePaper_v2.0.md       # Full standard specification (Markdown)
 │
 ├── templates/
 │   └── cms_template.json            # Annotated JSON-LD template for creators
@@ -122,6 +121,9 @@ cms/
 └── docs/
     └── developer_guide.html         # Full technical reference for developers
 ```
+
+> **White Paper v2.0** (full specification, governance, roadmap) is hosted at  
+> → [caribbeanmetadata.org/white-paper](https://caribbeanmetadata.org/white-paper)
 
 ---
 
@@ -179,6 +181,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full evolution process.
 | Phase 1 — Foundation | Months 0–3 | CMS v1.0 + Metadata Bible |
 | Phase 2 — Adoption | Months 3–9 | Pilot platforms + Certification badges |
 | Phase 3 — Scaling | Months 9–18 | AI-assisted tagging (experimental) + CMS v2.0 public |
+
+---
+
+## Related Resources
+
+| Resource | URL | Description |
+|---|---|---|
+| **CMS NLP Corpus** | [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) | First structured Caribbean cultural dataset — 15 records, 8 languages, CC BY 4.0 |
+| **Official website** | [caribbeanmetadata.org](https://caribbeanmetadata.org) | White Paper, Live Tagger, Metadata Bible |
+| **White Paper v2.0** | [caribbeanmetadata.org/white-paper](https://caribbeanmetadata.org/white-paper) | Full specification, governance, roadmap |
 
 ---
 
