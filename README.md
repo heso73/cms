@@ -188,7 +188,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full evolution process.
 
 | Resource | URL | Description |
 |---|---|---|
-| **CMS NLP Corpus** | [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) | First structured Caribbean cultural dataset — 15 records, 8 languages, CC BY 4.0 |
+| **CMS NLP Corpus** | [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) | First structured Caribbean cultural dataset — 110 records, 10 languages, 27 cultural markers, CC BY 4.0 |
 | **Official website** | [caribbeanmetadata.org](https://caribbeanmetadata.org) | White Paper, Live Tagger, Metadata Bible |
 | **White Paper v2.0** | [caribbeanmetadata.org/white-paper](https://caribbeanmetadata.org/white-paper) | Full specification, governance, roadmap |
 
