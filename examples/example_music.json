@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "cms": "https://caribbeanmetadata.org/ns/"
+  },
+  "@type": "MusicRecording",
+  "name": "Lévé Doubout",
+  "description": "A gwoka-influenced urban track blending traditional Guadeloupean rhythms with contemporary production.",
+  "creator": {
+    "@type": "Person",
+    "name": "DJ Karibson"
+  },
+  "datePublished": "2025-02-14",
+  "inLanguage": "gcf",
+  "keywords": ["guadeloupe", "gwoka", "urban", "afro-caribbean-music", "konpa-influenced"],
+  "contentLocation": {
+    "@type": "Place",
+    "name": "Guadeloupe",
+    "addressCountry": "GP"
+  },
+  "cms:territory": "Guadeloupe",
+  "cms:environment": "Urban",
+  "cms:linguistic_marker": "Guadeloupe Creole",
+  "cms:code_switching": "FR/Kreyol",
+  "cms:narrative_genre": "Social drama",
+  "cms:cultural_markers": ["Gwoka", "Carnival", "Afro-Caribbean heritage"],
+  "cms:rhythmic_tempo": "syncopated",
+  "cms:sociohistorical_markers": ["Creolization", "Diaspora identity"],
+  "cms:certification": "Silver",
+  "cms:standard_version": "CMS-2.0"
+}
