@@ -13,7 +13,7 @@ It does not replace existing standards. It extends them: adding a Caribbean sema
 
 → **White Paper v2.0:** [caribbeanmetadata.org/white-paper](https://caribbeanmetadata.org/white-paper) *(full specification — hosted on the official site)*  
 → **Live Tagger:** [caribbeanmetadata.org/#tagger](https://caribbeanmetadata.org/#tagger)  
-→ **NLP Corpus:** [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) *(first structured Caribbean cultural dataset)*  
+→ **NLP Corpus:** [github.com/heso73/cms-nlp-corpus](https://github.com/heso73/cms-nlp-corpus) *(110 records · 10 languages · 27 cultural markers · CC BY 4.0)*  
 → **Contact:** cms@caribwood.org
 
 ---
